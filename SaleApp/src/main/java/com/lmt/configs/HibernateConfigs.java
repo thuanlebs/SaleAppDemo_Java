@@ -34,7 +34,8 @@ public class HibernateConfigs {
                 = new LocalSessionFactoryBean();
         sessionFactory.setPackagesToScan(new String[]{
             "com.lmt.pojo",
-            "com.lmt."
+            "com.lmt.controllers",
+            "com.lmt.repositories"
         });
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setHibernateProperties(hibernateProperties());

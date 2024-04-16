@@ -1,7 +1,7 @@
-    <%-- 
-    Document   : index
-    Created on : Apr 1, 2024, 11:06:14 PM
-    Author     : HP
+<%-- 
+Document   : index
+Created on : Apr 1, 2024, 11:06:14 PM
+Author     : HP
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -35,5 +35,22 @@
                 </div>
             </div>
         </nav>
+
+        <section>
+            <div class="row">
+                <c:forEach items="${products}" var="p">
+                    <div class="col-md-3 col-12">
+                        <div class="card" >
+                            <img class="card-img-top" src="${p.image}" alt="${p.name}">
+                            <div class="card-body">
+                                <h4 class="card-title">${p.name}</h4>
+                                <p class="card-text">${p.price} VND</p>
+                                <a href="#" class="btn btn-primary">Xem Chi Tiet</a>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </section>
     </body>
 </html>
