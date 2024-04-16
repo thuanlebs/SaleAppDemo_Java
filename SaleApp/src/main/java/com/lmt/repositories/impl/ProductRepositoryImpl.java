@@ -16,6 +16,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
+@PropertySource("classpath:configs.properties")
 public class ProductRepositoryImpl implements ProductRepository{
     @Autowired
     private LocalSessionFactoryBean factory;
+    @Autowired
+    private Environment env;
+    
     public List<Product> getProducts(Map<String, String> params) {
         Session s=this.factory.getObject().getCurrentSession();
             CriteriaBuilder b = s.getCriteriaBuilder();
@@ -52,21 +58,29 @@ public class ProductRepositoryImpl implements ProductRepository{
             
             String cateId = params.get("cateId");
             if (cateId != null && !cateId.isEmpty())
-                predicates.add(b.equal(r.get("category").as(Integer.class), Integer.parseInt(cateId)));
+                predicates.add(b.equal(r.get("categoryId"), Integer.parseInt(cateId)));
             
             q.where(predicates.toArray(Predicate[]::new));
-            q.orderBy(b.desc(r.get("id")));
+            q.orderBy(b.desc(r.get("id"))); 
             
             Query query = s.createQuery(q);
+            
+            String p = params.get("page");
+            if(p!= null && !p.isEmpty()){
+                int pageSize =Integer.parseInt(env.getProperty("products.pageSize").toString());
+                int start =(Integer.parseInt(p)-1)*pageSize;
+                query.setFirstResult(start);
+                query.setMaxResults(pageSize);
+            }            
+            
             List<Product> products = query.getResultList();
             
             return products;
-        
     }
     
     public void addOrUpdate(Product p) {
         Session s = this.factory.getObject().getCurrentSession();
             s.saveOrUpdate(p);
-        
+
     }
 }

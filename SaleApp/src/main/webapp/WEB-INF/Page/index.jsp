@@ -22,35 +22,47 @@ Author     : HP
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="#">Trang chủ</a>
                         </li>
                         <c:forEach items="${categories}" var ="c">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">${c.name}</a>
+                                <c:url value="/" var="myUrl">
+                                    <c:param name="cateId" value="${c.id}"/>
+                                </c:url>
+                                <a class="nav-link" href="${myUrl}">${c.name}</a>
                             </li>
                         </c:forEach>
                     </ul>
+                    <form action="<c:url value="/"/>" class="d-flex">
+                        <input class="form-control me-2" name="kw" type="text" placeholder="Search">
+                        <button class="btn btn-primary" type="submit">Tim</button>
+                    </form>
                 </div>
             </div>
         </nav>
-
-        <section>
-            <div class="row">
+        <section class="container">
+            <table class="table table-striped">
+                <tr>
+                    <th></th>
+                    <th>Id</th>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th></th>
+                </tr>
                 <c:forEach items="${products}" var="p">
-                    <div class="col-md-3 col-12">
-                        <div class="card" >
-                            <img class="card-img-top" src="${p.image}" alt="${p.name}">
-                            <div class="card-body">
-                                <h4 class="card-title">${p.name}</h4>
-                                <p class="card-text">${p.price} VND</p>
-                                <a href="#" class="btn btn-primary">Xem Chi Tiet</a>
-                            </div>
-                        </div>
-                    </div>
+                    <tr>
+                        <td><img class="card-img-top" src="${p.image}" alt="${p.name}" style="width: 300px;"/></td>
+                        <td>${p.name}</td>
+                        <td>${p.price} VND</td>
+                        <td>
+                            <button class="btn btn-info">Cập nhật</button>
+                            <button class="btn btn-danger">Xóa</button>
+                        </td>
+                    </tr>
                 </c:forEach>
-            </div>
+            </table>
         </section>
     </body>
 </html>
