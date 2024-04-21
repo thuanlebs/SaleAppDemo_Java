@@ -5,6 +5,7 @@
 package com.lmt.repositories.impl;
 
 import com.lmt.pojo.Product;
+import static com.lmt.pojo.Product_.id;
 import com.lmt.repositories.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +81,12 @@ public class ProductRepositoryImpl implements ProductRepository{
     
     public void addOrUpdate(Product p) {
         Session s = this.factory.getObject().getCurrentSession();
-            s.saveOrUpdate(p);
+        s.saveOrUpdate(p);
+    }
 
+    @Override
+    public Product getProductById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(Product.class, id);
     }
 }

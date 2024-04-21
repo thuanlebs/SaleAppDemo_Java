@@ -4,16 +4,13 @@
  */
 package com.lmt.services;
 
-import com.lmt.pojo.Product;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author HP
  */
-public interface ProductService {
-    List<Product> getProducts(Map<String, String> params);
-    void addOrUpdate(Product p);
-    Product getProductById(int id);
+public interface StatsService {
+    List<Object[]> statsRevenueByProduct();
+    List<Object[]> statsRevenueByPeriod(int year, String period);
 }
